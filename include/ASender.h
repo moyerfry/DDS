@@ -1,11 +1,11 @@
 #ifndef ASENDER_H
 #define ASENDER_H
 
-#include <cstring>
-#include <sys/socket.h>
-#include <netdb.h>
+#include "INetInterface.h"
 
-class ASender
+using namespace std;
+
+class ASender : INetInterface
 {
 public:
   ASender();
