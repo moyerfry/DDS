@@ -9,22 +9,25 @@ RM_RECURSIVE_FLAG=-R
 PROGRAM_NAME=DDSService
 MAIN_FILE=DDSMain.cpp
 PATH_TO_COMMON=../Common
-INC_DIR=include $(PATH_TO_COMMON)/include
+INC_DIR=-Iinclude -I$(PATH_TO_COMMON)/include
 
-all: directories program
+all: directories program examples
 
 directories: $(BUILD_DIR)
 
 program: Common $(PROGRAM_NAME)
 
-$(PROGRAM_NAME): AReceiver ASender
-	$(CC) -o $(PROGRAM_NAME) $(addprefix -I,$(INC_DIR)) $(BUILD_DIR)/AReceiver.o $(BUILD_DIR)/ASender.o $(MAIN_FILE) $(CFLAGS)
+examples:
+	$(CC) -o SocketExamples SocketExamples.cpp
 
-AReceiver:
-	$(CC) -o $(BUILD_DIR)/$@.o -c $(SRC_DIR)/$@.cpp -I$(INC_DIR) $(CFLAGS)
+$(PROGRAM_NAME): UDPInterface ANetInterface
+	$(CC) -o $(PROGRAM_NAME) $(INC_DIR) $(addsuffix .o,$(addprefix $(BUILD_DIR)/,$^)) $(MAIN_FILE) $(CFLAGS)
 
-ASender:
-	$(CC) -o $(BUILD_DIR)/$@.o -c $(SRC_DIR)/$@.cpp -I$(INC_DIR) $(CFLAGS)
+UDPInterface:
+	$(CC) -o $(BUILD_DIR)/$@.o -c $(SRC_DIR)/$@.cpp $(INC_DIR) $(CFLAGS)
+	
+ANetInterface:
+	$(CC) -o $(BUILD_DIR)/$@.o -c $(SRC_DIR)/$@.cpp $(INC_DIR) $(CFLAGS)
 
 $(BUILD_DIR):
 	$(MK_DIR_CALL) $(BUILD_DIR)
