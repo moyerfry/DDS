@@ -16,3 +16,8 @@ void ANetInterface::Init()
 {
 
 }
+
+int ANetInterface::Send(std::string &msg, struct sockaddr_in addr)
+{
+  printf("ANetInterface\n");
+}

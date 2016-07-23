@@ -1,8 +1,8 @@
 #ifndef INETINTERFACE_H
 #define INETINTERFACE_H
 
-#include <cstring>
 #include <string>
+#include <cstring>
 #include <sys/socket.h>
 #include <netdb.h>
 #include "CircularBuffer.h"
@@ -13,10 +13,11 @@ public:
   ANetInterface();
   virtual ~ANetInterface();
   void Init();
-  std::string Receive();
-  void Send(std::string &to_send);
+  int Send(std::string &msg, struct sockaddr_in addr);
+  int Receive(std::string &msg, struct sockaddr_in addr);
 protected:
   int socketfd;
+  bool initialized;
   CircularBuffer<unsigned char> buf;
 };
 

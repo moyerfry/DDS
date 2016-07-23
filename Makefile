@@ -11,21 +11,21 @@ MAIN_FILE=DDSMain.cpp
 PATH_TO_COMMON=../Common
 INC_DIR=-Iinclude -I$(PATH_TO_COMMON)/include
 
-all: directories program examples
+all: directories program
 
 directories: $(BUILD_DIR)
 
-program: Common $(PROGRAM_NAME)
+program: directories Common $(PROGRAM_NAME)
 
 examples:
-	$(CC) -o SocketExamples SocketExamples.cpp
+	$(CC) -o $(EXAMPLE_NAME) $(EXAMPLE_NAME).cpp
 
 $(PROGRAM_NAME): UDPInterface ANetInterface
 	$(CC) -o $(PROGRAM_NAME) $(INC_DIR) $(addsuffix .o,$(addprefix $(BUILD_DIR)/,$^)) $(MAIN_FILE) $(CFLAGS)
 
 UDPInterface:
 	$(CC) -o $(BUILD_DIR)/$@.o -c $(SRC_DIR)/$@.cpp $(INC_DIR) $(CFLAGS)
-	
+
 ANetInterface:
 	$(CC) -o $(BUILD_DIR)/$@.o -c $(SRC_DIR)/$@.cpp $(INC_DIR) $(CFLAGS)
 
